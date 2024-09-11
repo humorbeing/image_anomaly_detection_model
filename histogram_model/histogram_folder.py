@@ -34,13 +34,12 @@ def histogram_folder(
 
 if __name__ == '__main__':
     from detect import detect
-    target_folder = 'dataset/working_folder/dataset5/remian_round2'
-    # detection_model_ckpt = 'experiment_setups/exp__v0001/ckpt/2024-09-08__01-58-52__101-round1-picklow__SGBDtpmTiZ_best_model_seed_5.pkl'
-    # # det = Detector(detection_model_ckpt)
-    # det = Detector(detection_model_ckpt, inference_with_max=True)
+    target_folder = 'dataset/training_folder/test/abnormal'
+    target_folder = 'dataset/training_folder/test'
+    
     histogram_folder(
         target_folder=target_folder,
         detect=detect,
         file_type_list=['jpg', 'JPG']
     )
-    print('')
+    print('end')

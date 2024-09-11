@@ -1,0 +1,5 @@
+Image Path,Prediction,Ground Truth
+dataset/training_folder/test/normal/115732_objt_rs_2020-12-15_11-42-13-33_002.JPG,0.043448999524116516,0
+dataset/training_folder/test/normal/87142_objt_rs_2020-12-05_16-53-00-33_005.JPG,0.04547495022416115,0
+dataset/training_folder/test/abnormal/119906_objt_rs_2020-12-15_13-15-36-66_003.JPG,0.05147166922688484,1
+dataset/training_folder/test/abnormal/83627_objt_rs_2020-12-05_10-07-18-66_003.JPG,0.044516559690237045,1
