@@ -7,7 +7,7 @@ from torch.nn.functional import softmax
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 model = get_disease_detection_model().to(device).eval()
-print('end')
+
 
 def detect(img_path):
     bgr_frame = cv2.imread(img_path)
@@ -24,7 +24,7 @@ def detect(img_path):
     return prediction
 
 if __name__ == '__main__':        
-    print('End')
-    img_path = 'dataset/training_folder/test/abnormal/144459_objt_rs_2020-12-17_10-33-34-33_002.JPG'
+    
+    img_path = 'dataset/training_folder/train/abnormal/83627_objt_rs_2020-12-05_10-07-18-66_003.JPG'
     score = detect(img_path)
-    print()
+    print(score)
