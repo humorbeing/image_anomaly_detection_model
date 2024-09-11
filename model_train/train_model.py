@@ -171,7 +171,7 @@ for step in range(num_steps):
         if this_auc_roc > best_AUCROC:
             best_AUCROC = this_auc_roc
             print(f'saving best: {this_auc_roc}')
-            save_folder = 'model_weights'
+            save_folder = os.path.dirname(__file__) + '/model_weights'
             os.makedirs(save_folder, exist_ok=True)
             torch.save(model.state_dict(), save_folder+'/this_model.pkl')        
     

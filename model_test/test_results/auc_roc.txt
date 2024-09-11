@@ -1,2 +1,2 @@
-Total AUC-ROC: 1.0
-Rock Bream AUC-ROC: 1.0
+Total AUC-ROC: 0.75
+Rock Bream AUC-ROC: 0.75
