@@ -1,0 +1,10 @@
+**/__pycache__/
+checkpoints/
+**/ckpt/
+.vscode/
+**/fish_images/
+/codes_here
+/*.egg-info
+
+**/images_big_image_dataset
+*.pkl
