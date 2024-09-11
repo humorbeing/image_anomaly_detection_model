@@ -35,6 +35,7 @@ def histogram_folder(
 if __name__ == '__main__':
     from detect import detect
     target_folder = 'dataset/training_folder/test/abnormal'
+    target_folder = 'dataset/training_folder/test'
     
     histogram_folder(
         target_folder=target_folder,
