@@ -1,4 +1,5 @@
-# import torchreid
+
+import os
 import torch
 from transforms import build_transforms
 
@@ -42,7 +43,7 @@ from dataset_loader import Dataset_normal, Dataset_abnormal, Dataset_test
 from torch.utils.data import DataLoader
 
 
-batch_size = 102
+batch_size = 2
 ntrain_dataset = Dataset_normal()
 
 ntrain_loader = DataLoader(
@@ -56,20 +57,12 @@ abtrain_loader = DataLoader(
     batch_size=batch_size, shuffle=True,
     num_workers=0, pin_memory=False, drop_last=True)
 
-test_batch_size = 16
+test_batch_size = 2
 test_dataset = Dataset_test()
 test_loader = DataLoader(
     test_dataset,
     batch_size=test_batch_size, shuffle=False,
     num_workers=0, pin_memory=False, drop_last=False)
-
-# import models
-
-# model = models.resnet.resnet152(    
-#     num_classes=2,
-#     loss='softmax',
-#     pretrained=True,    
-# )
 
 from models.osnet import osnet_x1_0
 
@@ -103,9 +96,9 @@ optimizer = torch.optim.Adam(
 optimizer.zero_grad()
 
 
-NUM_ACCUMULATION_STEPS = 10
+NUM_ACCUMULATION_STEPS = 5
 STEP_TRACKER = 0
-num_steps = 5000
+num_steps = 50
 
 best_AUCROC = 0
 for step in range(num_steps):    
@@ -124,31 +117,19 @@ for step in range(num_steps):
     outputs = model(input_features)
 
     loss = 0
-    loss_summary = {}
-
-    # if weight_t > 0:
-    #     loss_t = criterion_t(features, labels)
-    #     loss += weight_t * loss_t
-    #     loss_summary['loss_t'] = loss_t.item()
+    loss_summary = {}  
 
     
     loss_x = criterion_x(outputs, labels)
     loss += weight_x * loss_x
-    # loss_summary['loss_x'] = loss_x.item()
-    # loss_summary['acc'] = metrics.accuracy(outputs, labels)[0].item()
-
-    # assert loss_summary
+    
     loss = loss / NUM_ACCUMULATION_STEPS
     loss.backward()
     STEP_TRACKER = STEP_TRACKER + 1
     if (STEP_TRACKER % NUM_ACCUMULATION_STEPS == 0):
         optimizer.step()
         optimizer.zero_grad()
-    # optimizer.zero_grad()
-    # loss.backward()
-    # optimizer.step()
-
-    # print(f"{loss_summary['loss_t']}, {loss_summary['loss_x']}, {loss_summary['acc']}")
+    
 
     if step % 20 == 0:
         model.eval()
@@ -167,20 +148,14 @@ for step in range(num_steps):
                 labels_list = torch.cat((labels_list, labels))            
                 pred_list1 = torch.cat((pred_list1, prediction1))
                 pred_list2 = torch.cat((pred_list2, prediction2))
-            #     print('')
             
-
-            # print('')
         
 
         pred_np1 = pred_list1.cpu().detach().numpy()
         pred_np2 = pred_list2.cpu().detach().numpy()
         gt_np = labels_list.cpu().detach().numpy()
 
-        # decision_boundry = 0.5
-        # boolean_value = pred_np >= decision_boundry
-        # pred_class = boolean_value.astype(int)
-        # gt_class = gt_np.astype(int)
+        
 
         
 
@@ -196,11 +171,10 @@ for step in range(num_steps):
         if this_auc_roc > best_AUCROC:
             best_AUCROC = this_auc_roc
             print(f'saving best: {this_auc_roc}')
-            torch.save(model.state_dict(), 'this_model.pkl')        
-    # return loss_summary
-# model.eval()
-# inputs = torch.rand((1, 3, 224, 224))
-# outputs = model.eval_forward(inputs)
+            save_folder = 'model_weights'
+            os.makedirs(save_folder, exist_ok=True)
+            torch.save(model.state_dict(), save_folder+'/this_model.pkl')        
+    
 
 
 
