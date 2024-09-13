@@ -14,15 +14,15 @@ import torchvision.transforms as transforms
 import torch.nn.functional as F
 
 
-from dare_models import dare_R
-from dare_models import dare_D
+from dare_models import model_list
+
 from loss import OptiHardTripletLoss
 from dataset_loader import get_train_loader
-def main():
+def main(model):
     
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     # model = dare_R().to(device)
-    model = dare_D().to(device)
+    model = model.to(device)
     criterion = OptiHardTripletLoss(mean_loss=False, margin=2.0, eps=1e-08).to(device)
     
     optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.0001)
@@ -30,7 +30,7 @@ def main():
     train_loader = get_train_loader()
 
     iter_count = 1
-    while iter_count < 50000:
+    while iter_count < 5:
         # train for one epoch
         loss_train, iter_count = train(train_loader, model, criterion, optimizer, iter_count)
         print(loss_train)
@@ -116,4 +116,5 @@ class AverageMeter(object):
 
 
 if __name__ == '__main__':
-    main()
+    for model_ in model_list:
+        main(model_())
