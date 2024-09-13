@@ -2,4 +2,5 @@
 
 
 chmod +x show.sh
+
 ./show.sh
