@@ -94,7 +94,8 @@ if __name__ == '__main__':
         print('torch float convert to PIL image.')
     except:
         print('torch float cannot convert to PIL image.')
-
+        
+    from torchvision import transforms
     from torchvision.transforms.functional import InterpolationMode
 
     IMAGENET_MEAN = [0.485, 0.456, 0.406]
